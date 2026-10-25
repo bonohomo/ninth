@@ -1,26 +1,41 @@
-import React from 'react';
-import logo from './logo.svg';
+import Card, { CardVariant } from "./components/Card";
+import { useState, useEffect, use } from "react";
+// import UserList from "./components/UserList";
+import List from "./components/List";
+import UserItem from "./components/UserItem";
+import TodoItem from "./components/TodoItem";
+import { IUser, ITodo } from "./types/types";
 import './App.css';
 
 function App() {
+  const [users, setUsers] = useState<IUser[]>([]);
+  const [todos, setTodos] = useState<ITodo[]>([]);
+
+
+  useEffect(() => {
+    fetch("https://jsonplaceholder.typicode.com/users")
+      .then(response => response.json())
+      .then(json => setUsers(json))
+  }, []);
+
+  useEffect(() => {
+    fetch("https://jsonplaceholder.typicode.com/todos?_limit=10")
+      .then(response => response.json())
+      .then(json => setTodos(json))
+  }, []);
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Card onClickFunc={() => console.log("Я функция")} variant={CardVariant.outlined} width="200px" height="200px">
+        <button>Кнопка</button>
+      </Card>
+      {/* <UserList users={users} /> */}
+      <List items={users} renderItem={(user: IUser) => <UserItem user={user} key={user.id} />} />
     </div>
   );
 }
 
 export default App;
+
+// <IUser> - generic
