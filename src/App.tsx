@@ -32,6 +32,9 @@ function App() {
       </Card>
       {/* <UserList users={users} /> */}
       <List items={users} renderItem={(user: IUser) => <UserItem user={user} key={user.id} />} />
+
+      <List items={todos} renderItem={(todo: ITodo) => <TodoItem todo={todo} key={todo.id} />} />
+      
     </div>
   );
 }
